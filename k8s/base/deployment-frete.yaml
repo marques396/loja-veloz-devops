@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: servico-frete
+  namespace: pedidos-veloz
+spec:
+  replicas: 2 # Duas réplicas para garantir disponibilidade
+  selector:
+    matchLabels:
+      app: frete
+  template:
+    metadata:
+      labels:
+        app: frete
+    spec:
+      containers:
+      - name: frete
+        image: servico-frete:local # Lembre de gerar a imagem com esse nome ou atualizar para o seu Docker Hub
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3005 # Batendo com seu código Node.js
+        envFrom:
+        - configMapRef:
+            name: pedidos-config
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "64Mi"
+          limits:
+            cpu: "150m"
+            memory: "128Mi"

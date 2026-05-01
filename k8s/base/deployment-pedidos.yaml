@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: servico-pedidos
+  namespace: pedidos-veloz
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pedidos
+  template:
+    metadata:
+      labels:
+        app: pedidos
+      annotations:
+        prometheus.io/scrape: "true"
+    spec:
+      containers:
+      - name: pedidos
+        # MUDANÇA AQUI: Nome exato que você usou no comando 'docker build'
+        image: osmar/servico-pedidos:v3
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3001
+        envFrom:
+        - configMapRef:
+            name: pedidos-config
+        - secretRef:
+            name: db-passwords
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "250m"
+            memory: "256Mi"

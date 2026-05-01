@@ -1,0 +1,21 @@
+name: CD - Deploy para Kubernetes
+
+on:
+  workflow_run:
+    workflows: ["CI - Build e Teste"]
+    types: [completed]
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Aplicar Manifestos K8s
+        run: |
+          kubectl apply -f k8s/base/configmap.yaml
+          kubectl apply -f k8s/base/secrets.yaml
+          kubectl apply -f k8s/base/service.yaml
+          # kubectl apply -f k8s/base/deployment.yaml

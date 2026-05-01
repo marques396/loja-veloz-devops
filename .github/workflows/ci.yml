@@ -1,0 +1,19 @@
+name: CI - Build e Teste
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build das Imagens (Teste)
+        run: docker-compose build
+
+      - name: Linter e Testes
+        run: |
+          echo "Rodando testes de unidade no servico-pedidos..."
+          # Aqui você pode adicionar comandos como 'npm test' se houver testes

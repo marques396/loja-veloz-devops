@@ -1,0 +1,18 @@
+server:
+  global:
+    scrape_interval: 15s # Monitoramento em tempo real a cada 15 segundos
+  
+  persistentVolume:
+    enabled: true
+    size: 5Gi # Guarda seu histórico de métricas no HD
+
+# O símbolo "|" é obrigatório nas versões novas para transformar a lista em texto
+extraScrapeConfigs: |
+  - job_name: 'loja-veloz-metrics'
+    kubernetes_sd_configs:
+      - role: pod
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_label_app]
+        action: keep
+        # Garante que ele vigie todos os seus microsserviços da UniFECAF
+        regex: (pedidos|estoque-service|pagamentos-service|frete)
