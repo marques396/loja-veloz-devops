@@ -9,13 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout do código
-        uses: actions/checkout@v3
+        # ATUALIZADO: v4 usa Node.js mais recente, removendo o aviso de obsolescência
+        uses: actions/checkout@v4
 
       - name: Build das Imagens (Teste)
-        # Trocamos para 'docker compose' e adicionamos o caminho correto
+        # CORREÇÃO ERRO 127: 'docker compose' (com espaço) e caminho do projeto
         run: docker compose -f infra/compose/docker-compose.yml build
 
       - name: Linter e Testes
         run: |
-          echo "Rodando verificações iniciais..."
-          # Aqui futuramente você pode rodar os testes do FastAPI
+          echo "Rodando verificações na Loja Veloz..."
