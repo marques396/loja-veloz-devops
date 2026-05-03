@@ -28,7 +28,7 @@ services:
   servico-pedidos:
     build: ./servico-pedidos
     ports:
-      - "3002:3002"
+      - "3001:3001"
     environment:
       DB_HOST: postgres
       RABBITMQ_HOST: rabbitmq
@@ -41,7 +41,7 @@ services:
   servico-pagamentos:
     build: ./servico-pagamentos
     ports:
-      - "3001:3001"
+      - "3002:3002"
     depends_on:
       - rabbitmq
       - servico-frete
