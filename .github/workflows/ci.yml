@@ -8,12 +8,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout do código
+        uses: actions/checkout@v3
 
       - name: Build das Imagens (Teste)
-        run: docker-compose build
+        # Trocamos para 'docker compose' e adicionamos o caminho correto
+        run: docker compose -f infra/compose/docker-compose.yml build
 
       - name: Linter e Testes
         run: |
-          echo "Rodando testes de unidade no servico-pedidos..."
-          # Aqui você pode adicionar comandos como 'npm test' se houver testes
+          echo "Rodando verificações iniciais..."
+          # Aqui futuramente você pode rodar os testes do FastAPI
