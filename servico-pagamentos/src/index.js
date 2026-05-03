@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 3001; // Porta configurada com o docker-compose
+const port = 3002; // Porta configurada com o docker-compose
 
 app.use(express.json());
 
