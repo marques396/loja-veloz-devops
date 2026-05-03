@@ -4,21 +4,21 @@ metadata:
   name: servico-frete
   namespace: pedidos-veloz
 spec:
-  replicas: 2 # Duas réplicas para garantir disponibilidade
+  replicas: 2
   selector:
     matchLabels:
-      app: frete
+      app: servico-frete
   template:
     metadata:
       labels:
-        app: frete
+        app: servico-frete
     spec:
       containers:
-      - name: frete
-        image: servico-frete:local # Lembre de gerar a imagem com esse nome ou atualizar para o seu Docker Hub
+      - name: servico-frete
+        image: loja-veloz-devops-servico-frete:latest
         imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 3005 # Batendo com seu código Node.js
+        - containerPort: 3005
         envFrom:
         - configMapRef:
             name: pedidos-config

@@ -5,11 +5,11 @@ metadata:
   namespace: pedidos-veloz
 spec:
   selector:
-    app: pedidos
+    app: servico-pedidos
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 3001 # Porta do Node.js de Pedidos
+      targetPort: 3001
 ---
 apiVersion: v1
 kind: Service
@@ -18,11 +18,11 @@ metadata:
   namespace: pedidos-veloz
 spec:
   selector:
-    app: estoque
+    app: servico-estoque
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 3003 # Porta do Node.js de Estoque
+      targetPort: 3003
 ---
 apiVersion: v1
 kind: Service
@@ -31,11 +31,11 @@ metadata:
   namespace: pedidos-veloz
 spec:
   selector:
-    app: pagamentos
+    app: servico-pagamentos
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 3002 # Porta do Node.js de Pagamentos
+      targetPort: 3002
 ---
 apiVersion: v1
 kind: Service
@@ -44,8 +44,22 @@ metadata:
   namespace: pedidos-veloz
 spec:
   selector:
-    app: frete
+    app: servico-frete
   ports:
     - protocol: TCP
-      port: 80         # Porta que o Gateway vai chamar (http://frete-service)
-      targetPort: 3005 # AJUSTADO: Porta real do seu código servico-frete
+      port: 80
+      targetPort: 3005
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway-service
+  namespace: pedidos-veloz
+spec:
+  type: LoadBalancer
+  selector:
+    app: api-gateway
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
