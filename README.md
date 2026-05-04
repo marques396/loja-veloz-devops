@@ -54,11 +54,17 @@ Verificar Logs do Gateway:
 PowerShell
 kubectl logs -l app=api-gateway -n pedidos-veloz -f
 🔗 Endpoints de Acesso
-Gateway Principal: http://localhost:3000
+Gateway Principal (Entrada): http://localhost:3000
+
+Serviço de Pedidos: http://localhost:3001
+
+Serviço de Pagamentos: http://localhost:3002
+
+Serviço de Estoque: http://localhost:3003
 
 Serviço de Frete: http://localhost:3005
 
-RabbitMQ: http://localhost:15672
+Painel do RabbitMQ (Gestão): http://localhost:15672
 
 Desenvolvedor: Osmar Marques (marques396)
 
