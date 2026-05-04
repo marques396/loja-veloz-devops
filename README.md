@@ -30,14 +30,20 @@ Abaixo, os serviços ativos na infraestrutura e suas portas de acesso (padroniza
 Certifique-se de que o **Docker Desktop** está rodando e acesse a raiz do projeto:
 
 ```powershell
-cd loja-veloz-devops
+cd C:\Users\osmar\loja-veloz-devops
+```
 
-2. Opção A: Via Docker Compose (Desenvolvimento)
+### 2. Opção A: Via Docker Compose (Desenvolvimento)
 Suba toda a infraestrutura rapidamente:
-docker compose up -d --build
 
-3. Opção B: Via Kubernetes (Homologação)
+```powershell
+docker compose up -d --build
+```
+
+### 3. Opção B: Via Kubernetes (Homologação)
 Aplique os manifestos no cluster local:
+
+```powershell
 kubectl apply -f k8s/base/configmap.yaml
 kubectl apply -f k8s/base/deployment.yaml
 kubectl apply -f k8s/base/deployment-estoque.yaml
@@ -47,22 +53,32 @@ kubectl apply -f k8s/base/deployment-pedidos.yaml
 kubectl apply -f k8s/base/service.yaml
 kubectl apply -f k8s/base/hpa.yaml
 kubectl apply -f k8s/base/postgres.yaml
+```
 
-✅ Validação e Testes
-Inicializar e validar banco de dados
+## ✅ Validação e Testes
+
+### Inicializar e validar banco de dados
+
+```powershell
 Get-Content "init.sql" | docker exec -i loja-veloz-devops-postgres-1 psql -U postgres -d pedidos_db
 docker exec -it loja-veloz-devops-postgres-1 psql -U postgres -d pedidos_db -c "\dt"
+```
 
-Verificar logs do Gateway
+### Verificar logs do Gateway
 
+```powershell
 docker logs -f loja-veloz-devops-api-gateway-1
+```
 
- Endpoints de Acesso
-Gateway Principal: http://localhost:3000
-Serviço de Pedidos: http://localhost:3001
-Serviço de Pagamentos: http://localhost:3002
-Serviço de Estoque: http://localhost:3003
-Serviço de Frete: http://localhost:3005
-Painel RabbitMQ: http://localhost:15672
+## 🔗 Endpoints de Acesso
 
-Desenvolvedor: Osmar Marques (marques396)
+* Gateway Principal: `http://localhost:3000`
+* Serviço de Pedidos: `http://localhost:3001`
+* Serviço de Pagamentos: `http://localhost:3002`
+* Serviço de Estoque: `http://localhost:3003`
+* Serviço de Frete: `http://localhost:3005`
+* Painel RabbitMQ: `http://localhost:15672`
+
+---
+
+Desenvolvedor: **Osmar Marques (marques396)**
