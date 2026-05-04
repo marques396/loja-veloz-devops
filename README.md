@@ -1,10 +1,10 @@
 # Projeto Loja Veloz - Modernização Cloud-Native 🚀
 
-Este projeto representa a evolução da plataforma **Pedidos Veloz**, migrando de uma estrutura legada para uma **Arquitetura de Microsserviços** resiliente, escalável e conteinerizada.
+Este projeto representa a evolução da plataforma **"Pedidos Veloz"**, migrando de uma estrutura legada para uma **Arquitetura de Microsserviços** resiliente, escalável e conteinerizada.
 
 ## 🛠️ Stack Tecnológica e Portas do Sistema
 
-Abaixo, os serviços ativos na infraestrutura e suas portas de acesso (padronizadas para Docker e Kubernetes):
+Abaixo, os serviços ativos na infraestrutura e suas portas de acesso (Padronizadas para Docker e Kubernetes):
 
 | Serviço | Porta | Descrição |
 | :--- | :--- | :--- |
@@ -14,71 +14,63 @@ Abaixo, os serviços ativos na infraestrutura e suas portas de acesso (padroniza
 | **Srv. Estoque** | 3003 | Gerenciamento de inventário e produtos. |
 | **Srv. Frete** | 3005 | Cálculo de logística com suporte a frete grátis. |
 | **PostgreSQL** | 5432 | Banco de Dados Relacional (`pedidos_db`). |
-| **RabbitMQ** | 15672 | Painel de gestão de mensageria (`guest`/`guest`). |
+| **RabbitMQ** | 15672 | Painel de gestão de mensageria (User/Pass: guest). |
 
 ## 🏗️ Soluções Implementadas
 
-* **Conteinerização**: Dockerfiles multiestágio para otimização de build e segurança.
-* **Orquestração K8s**: Manifestos de Deployment, Service e HPA em `k8s/`.
-* **CI/CD Automatizado**: Pipeline via GitHub Actions validando builds e compatibilidade com Node 24.
-* **Mensageria**: RabbitMQ garantindo desacoplamento e resiliência do fluxo de dados.
-* **Healthchecks**: Verificações de saúde garantindo que os serviços aguardem a prontidão do banco de dados.
+*   **Conteinerização**: Dockerfiles multiestágio para otimização de build e segurança.
+*   **Orquestração K8s**: Preparado para Kubernetes com manifestos de Deployment, Service e HPA em `k8s/`.
+*   **CI/CD Automatizado**: Pipeline via GitHub Actions validando builds e compatibilidade com Node 24.
+*   **Mensageria**: RabbitMQ garantindo o desacoplamento e a resiliência do fluxo de dados.
+*   **Healthchecks**: Verificações de saúde garantindo que os serviços aguardem a prontidão do banco de dados.
 
 ## 🚦 Como Rodar o Projeto
 
 ### 1. Preparação
-Certifique-se de que o **Docker Desktop** está rodando e acesse a raiz do projeto:
+Certifique-se de que o **Docker Desktop** está rodando e acesse a raiz do projeto no terminal:
 
 ```powershell
-cd C:\Users\osmar\loja-veloz-devops
-```
+cd loja-veloz-devops
+2. Opção A: Via Docker Compose (Desenvolvimento)
+Suba a infraestrutura completa de forma rápida:
 
-### 2. Opção A: Via Docker Compose (Desenvolvimento)
-Suba toda a infraestrutura rapidamente:
-
-```powershell
+PowerShell
 docker compose up -d --build
-```
+3. Opção B: Via Kubernetes (Homologação)
+Aplique os manifestos corrigidos para rodar no cluster local:
 
-### 3. Opção B: Via Kubernetes (Homologação)
-Aplique os manifestos no cluster local:
-
-```powershell
+PowerShell
+# Aplicar manifestos de todos os serviços
 kubectl apply -f k8s/base/configmap.yaml
 kubectl apply -f k8s/base/deployment.yaml
 kubectl apply -f k8s/base/deployment-estoque.yaml
 kubectl apply -f k8s/base/deployment-frete.yaml
-kubectl apply -f k8s/base/deployment-pagamentos.yaml
-kubectl apply -f k8s/base/deployment-pedidos.yaml
 kubectl apply -f k8s/base/service.yaml
-kubectl apply -f k8s/base/hpa.yaml
-kubectl apply -f k8s/base/postgres.yaml
-```
+✅ Validação e Testes
+Inicializar e Validar Banco de Dados
+Caso seja a primeira execução, injete o script de criação de tabelas e verifique a estrutura:
 
-## ✅ Validação e Testes
-
-### Inicializar e validar banco de dados
-
-```powershell
+PowerShell
+# Injetar script de criação
 Get-Content "init.sql" | docker exec -i loja-veloz-devops-postgres-1 psql -U postgres -d pedidos_db
+
+# Listar tabelas criadas
 docker exec -it loja-veloz-devops-postgres-1 psql -U postgres -d pedidos_db -c "\dt"
-```
-
-### Verificar logs do Gateway
-
-```powershell
+Verificar Logs do Gateway
+PowerShell
 docker logs -f loja-veloz-devops-api-gateway-1
-```
+🔗 Endpoints de Acesso
+Gateway Principal (Entrada): http://localhost:3000
 
-## 🔗 Endpoints de Acesso
+Serviço de Pedidos: http://localhost:3001
 
-* Gateway Principal: `http://localhost:3000`
-* Serviço de Pedidos: `http://localhost:3001`
-* Serviço de Pagamentos: `http://localhost:3002`
-* Serviço de Estoque: `http://localhost:3003`
-* Serviço de Frete: `http://localhost:3005`
-* Painel RabbitMQ: `http://localhost:15672`
+Serviço de Pagamentos: http://localhost:3002
 
----
+Serviço de Estoque: http://localhost:3003
 
-Desenvolvedor: **Osmar Marques (marques396)**
+Serviço de Frete: http://localhost:3005
+
+Painel do RabbitMQ (Gestão): http://localhost:15672
+
+Desenvolvedor: Osmar Marques (marques396)
+Curso: Tecnologia em Análise e Desenvolvimento de Sistemas - UniFECAF
