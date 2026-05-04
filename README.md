@@ -4,36 +4,33 @@ Este projeto representa a evolução da plataforma "Pedidos Veloz", migrando de 
 
 ## 🛠️ Stack Tecnológica e Portas do Sistema
 
-Abaixo estão os serviços ativos na infraestrutura e suas portas de acesso (Padronizadas para Docker e Kubernetes):
+Abaixo, os serviços ativos na infraestrutura e suas portas de acesso (Padronizadas para Docker e Kubernetes):
 
 | Serviço | Porta | Descrição |
 | :--- | :--- | :--- |
-| **API Gateway** | 3000 | Ponto de entrada central (Entrypoint). |
-| **Srv. Pedidos** | 3001 | Gestão de ordens e integração DummyJSON. |
+| **Gateway de API** | 3000 | Ponto de entrada central. |
+| **Srv. Pedidos** | 3001 | Gestão de pedidos e integração DummyJSON. |
 | **Srv. Pagamentos** | 3002 | Processamento de transações financeiras. |
 | **Srv. Estoque** | 3003 | Gerenciamento de inventário e produtos. |
 | **Srv. Frete** | 3005 | Cálculo de logística e prazos de entrega. |
-| **PostgreSQL** | 5432 | Banco de Dados relacional (`pedidos_db`). |
-| **RabbitMQ** | 15672 | Painel de gestão de mensageria (guest/guest). |
+| **PostgreSQL** | 5432 | Banco de Dados Relacionais (`pedidos_db`). |
+| **RabbitMQ** | 15672 | Painel de gestão de mensagens (guest/guest). |
 
 ## 🏗️ Soluções Implementadas
 
-* **Conteinerização:** Dockerfiles multi-stage para otimização de build e segurança (Non-root user).
-* **Orquestração K8s:** Preparado para Kubernetes com manifestos de Deployment, Service e HPA em `k8s/base`.
-* **CI/CD Automatizado:** Pipeline via GitHub Actions validando builds e compatibilidade com Node 24 (2026).
-* **Mensageria:** RabbitMQ garantindo o desacoplamento e a resiliência do fluxo de dados.
-* **Healthchecks:** Verificações de saúde garantindo que os serviços aguardem a prontidão do banco de dados.
-
----
+*   **Conteinerização**: Dockerfiles multiestágio para otimização de build e segurança.
+*   **Orquestração K8s**: Preparado para Kubernetes com manifestos de Deployment, Service e HPA em `k8s/`.
+*   **CI/CD Automatizado**: Pipeline via GitHub Actions validando builds e compatibilidade com Node 24.
+*   **Mensageria**: RabbitMQ garantindo o desacoplamento e a resiliência do fluxo de dados.
+*   **Healthchecks**: Verificações de saúde garantindo que os serviços aguardem a prontidão do banco de dados.
 
 ## 🚦 Como Rodar o Projeto
 
 ### 1. Preparação
 Certifique-se de que o **Docker Desktop** está rodando e acesse a raiz do projeto no terminal:
-```powershell
-# Certifique-se de estar na pasta principal
-cd loja-veloz-devops
 
+```bash
+cd loja-veloz-devops
 2. Opção A: Via Docker Compose (Desenvolvimento)
 Suba a infraestrutura completa de forma rápida:
 
@@ -43,7 +40,7 @@ docker compose up -d --build
 Aplique os manifestos corrigidos para rodar no cluster local:
 
 PowerShell
-# Aplicar manifestos de deployment e service
+# Criar o namespace e aplicar manifestos
 kubectl apply -f k8s/base/deployment.yaml -n pedidos-veloz
 kubectl apply -f k8s/base/service.yaml -n pedidos-veloz
 kubectl apply -f k8s/base/deployment-frete.yaml -n pedidos-veloz
@@ -64,4 +61,5 @@ Serviço de Frete: http://localhost:3005
 RabbitMQ: http://localhost:15672
 
 Desenvolvedor: Osmar Marques (marques396)
+
 Curso: Tecnologia em Análise e Desenvolvimento de Sistemas - UniFECAF
